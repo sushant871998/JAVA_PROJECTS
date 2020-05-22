@@ -1,6 +1,4 @@
-
-
-
+package homewok4;
 public class BinarySearchTree<E extends Comparable<E>> {
 	class Node {
 		E value;
@@ -109,57 +107,102 @@ public class BinarySearchTree<E extends Comparable<E>> {
 	}
 
 	
-	/*********************************************
-	 * 
-	 * IMPLEMENT THE METHODS BELOW!
-	 *
-	 *********************************************/
-	
-	
-	// Method #1.
+	private Node temp=root;
 	public Node findNode(E val) {
-
 		/* IMPLEMENT THIS METHOD! */
-		
-		return null; // this line is here only so this code will compile if you don't modify it
-
+		if(temp==null)
+			return null;
+		if(temp.value==val)
+			return root;
+		else if(temp.value.compareTo(val)<0)
+		{
+			temp=temp.rightChild;
+			return findNode(val);
+		}
+		else
+		{
+			temp=temp.leftChild;
+			return findNode(val);
+		}
+	
 	}
 	
-	// Method #2.
+	
 	protected int depth(E val) {
 
-		/* IMPLEMENT THIS METHOD! */
+		if(val==null)
+			return -1;
+		return depth(root,val,0);		
 		
-		return -2; // this line is here only so this code will compile if you don't modify it
 
 	}
 	
+	private int depth(Node root,E val, int level) {
+		// TODO Auto-generated method stub
+		if(root==null)
+			return -1;
+		if(root.value==val)
+			return level;
+		else if(root.value.compareTo(val)>0)
+			return depth(root.leftChild,val,level+1);
+		else if(root.value.compareTo(val)<0)
+			return depth(root.rightChild,val,level+1);
+		return -1;
+	}
+
 	// Method #3.
 	protected int height(E val) {
 
-		/* IMPLEMENT THIS METHOD! */
-		
-		return -2; // this line is here only so this code will compile if you don't modify it
-
+		Node curr=findNode(val);
+		return height(curr,val,0);
 	}
 
+
+	private int height(BinarySearchTree<E>.Node curr, E val,int level) {
+		// TODO Auto-generated method stub
+		if(curr.leftChild==null && curr.rightChild==null)
+			return level;
+		if(curr.leftChild==null)
+			return height(curr.rightChild,val,level+1);
+		else if(curr.rightChild==null)
+			return height(curr.leftChild,val,level+1);
+		return height(curr.leftChild,val,level+1);
+	}
 
 	// Method #4.
 	protected boolean isBalanced(Node n) {
 
 		/* IMPLEMENT THIS METHOD! */
+		if(Math.abs(height(n.leftChild.value)-height(n.rightChild.value))==0||Math.abs(height(n.leftChild.value)-height(n.rightChild.value))==1)
+			return true;
 		
-		return true; // this line is here only so this code will compile if you don't modify it
-
+		return false; 
 	}
-	
+	Node temp1=root;
 	// Method #5. .
 	public boolean isBalanced() {
 
-		/* IMPLEMENT THIS METHOD! */
-		
-		return false; // this line is here only so this code will compile if you don't modify it
+		return dfs(root);
 
+	}
+	boolean v1=true;
+	boolean v2=true;
+	boolean v3=true;
+	private boolean dfs(BinarySearchTree<E>.Node root2) {
+		// TODO Auto-generated method stub
+		if(!(isBalanced(root2)))
+			return false;
+		v1=dfs(root2.leftChild);
+		if(!v1)
+			return v1;	
+		v2=dfs(root2);
+		if(!(v2))
+			return v2;
+		v3=dfs(root2.rightChild);
+		if(!v3)
+			return v3;
+		return true;
 	}
 
 }
+
